@@ -1,0 +1,144 @@
+{
+  "version": 2,
+  "name": "llm-finetuning-studio",
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    },
+    {
+      "src": "api/health.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "api/training.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "api/datasets.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "api/models.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "api/upload.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "api/modal-status.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/health",
+      "dest": "/api/health.py"
+    },
+    {
+      "src": "/api/training/(.*)",
+      "dest": "/api/training.py"
+    },
+    {
+      "src": "/api/datasets",
+      "dest": "/api/datasets.py"
+    },
+    {
+      "src": "/api/models",
+      "dest": "/api/models.py"
+    },
+    {
+      "src": "/api/upload",
+      "dest": "/api/upload.py"
+    },
+    {
+      "src": "/api/modal/status",
+      "dest": "/api/modal-status.py"
+    },
+    {
+      "src": "/api/auth/(.*)",
+      "dest": "/frontend/pages/api/auth/$1"
+    },
+    {
+      "src": "/api/stripe/(.*)",
+      "dest": "/frontend/pages/api/stripe/$1"
+    },
+    {
+      "src": "/api/subscription/(.*)",
+      "dest": "/frontend/pages/api/subscription/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ],
+  "env": {
+    "MODAL_PROFILE": "@modal_profile",
+    "MODAL_TOKEN_ID": "@modal_token_id",
+    "MODAL_TOKEN_SECRET": "@modal_token_secret",
+    "STRIPE_SECRET_KEY": "@stripe_secret_key",
+    "STRIPE_PUBLISHABLE_KEY": "@stripe_publishable_key",
+    "STRIPE_WEBHOOK_SECRET": "@stripe_webhook_secret",
+    "NEXTAUTH_SECRET": "@nextauth_secret",
+    "NEXTAUTH_URL": "@nextauth_url",
+    "DATABASE_URL": "@database_url",
+    "GOOGLE_CLIENT_ID": "@google_client_id",
+    "GOOGLE_CLIENT_SECRET": "@google_client_secret",
+    "GITHUB_ID": "@github_id",
+    "GITHUB_SECRET": "@github_secret",
+    "MINIO_ENDPOINT": "@minio_endpoint",
+    "MINIO_ACCESS_KEY": "@minio_access_key",
+    "MINIO_SECRET_KEY": "@minio_secret_key",
+    "MINIO_SECURE": "@minio_secure",
+    "ENVIRONMENT": "production"
+  },
+  "functions": {
+    "api/*.py": {
+      "runtime": "python3.11"
+    },
+    "frontend/pages/api/**/*.js": {
+      "runtime": "nodejs18.x"
+    },
+    "frontend/pages/api/**/*.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "installCommand": "cd frontend && npm install && npx prisma generate",
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/build",
+  "framework": "create-react-app",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,4 @@
+
+{"text": "This is a test sentence for fine-tuning.", "instruction": "Write a sentence.", "response": "This is a test sentence."}
+{"text": "Another test sentence.", "instruction": "Write another sentence.", "response": "This is another test sentence."}
+

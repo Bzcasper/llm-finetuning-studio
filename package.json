@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "setup:stripe": "node scripts/setup-stripe.js",
+    "security:check": "echo 'Running security checks...' && grep -r 'sk_live\\|sk_test' . --exclude-dir=node_modules --exclude-dir=.git || echo 'No hardcoded Stripe keys found'",
+    "test:security": "node scripts/test-security.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

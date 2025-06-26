@@ -1,4 +1,16 @@
+# Build artifacts
+dist/
+build/
+.vite/
+
+# Environment variables (never commit actual secrets)
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# System files
 .browser_data_dir
 .cache
 .config
@@ -17,3 +29,13 @@
 .zshrc
 .sandbox.txt
 todo.md.ssh/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
